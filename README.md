@@ -56,4 +56,4 @@ For detailed explanation on how things work, checkout the [guide](http://vuejs-t
 
 ## 目前完成的动图效果
 
->
+>![](https://github.com/muzi8/myfirstVue/raw/master/demo1.gif)  
