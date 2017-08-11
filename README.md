@@ -36,6 +36,10 @@ For detailed explanation on how things work, checkout the [guide](http://vuejs-t
 ## 目前的情况
 
 > 目前的版本还只实现到商品详情页的评价部分，稍后几天会努力写完，也算是自己对这个项目有个圆满的结局。从这个视频中自己也学到了很多。光拿本本做笔记就已经密密麻麻写了40多张纸了。
+> 
+> 8月11日的修改
+> >已经写完了评论组件，但是因为总是会报一个错，ratings里的$nextTick会说找不到children的错误，因为在main.js里用`router.push('/goods');` 直接导航到了goods组件。那个时候会删除ratings的DOM，而ratings里的$nextTick是一个异步更新的过程，所以才找不到。现在暂时将`router.push('/goods');`这一句注释掉了，但是打开之后默认是空白的，得点击商品、评价选项才会有内容。
+>> 等组件都开发完毕研究一下怎么正确导向又不报错。P
  
 ## 遇到的问题
 > 目前来说遇到最大的问题就是因为视频和实际版本的不统一，在$dispatch那里出现了一些小问题，后来自己在网上找了很多解决方法，因为没有用Vuex，目前的解决办法是建立一个eventHub创建一个事件中心，相当于中转站，然后用来传递和接受事件。在用$dispatch的地方写上`this.$root.eventHub.$emit('YOUR_EVENT_NAME', yourData);` (在子组件内触发这个事件), 然后去另外一个组件内(或是父组件内)，要在它的
