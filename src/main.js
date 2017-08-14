@@ -40,4 +40,4 @@ new Vue({
     }
 }).$mount('#app');
 
-// router.push('/goods');  // 利用vue-router的导航式编程。(8月11日注释掉了这一句，因为在开发ratings的时候因为这一句导致报错)，上线时默认带个hash值
+router.push('/goods');  // 利用vue-router的导航式编程。(8月11日注释掉了这一句，因为在开发ratings的时候因为这一句导致报错)，上线时默认带个hash值, 8月14日进行了修改，添加上去了)

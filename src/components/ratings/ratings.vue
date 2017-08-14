@@ -26,7 +26,7 @@
                 </div>
             </div>
             <split></split>
-            <ratingselect :selectType="selectType" :onlyContent="onlyContent" :ratings="ratings"></ratingselect>
+            <ratingselect @select="selectRating" @toggle="toggleContent" :selectType="selectType" :onlyContent="onlyContent" :ratings="ratings"></ratingselect>
             <div class="rating-wrapper">
                 <ul>
                     <li v-show="needShow(rating.rateType, rating.text)" v-for="rating in ratings" class="rating-item">
@@ -92,8 +92,6 @@
                     });
                 }
             });
-            this.$root.eventHub.$on('selecttype', this.handleSelectType);  // 必须得监听不然选择按钮不起作用
-            this.$root.eventHub.$on('onlycontent', this.handleOnlyContent);
         },
         methods: {
             needShow(type, text) {
@@ -106,17 +104,19 @@
                     return type === this.selectType;  // 如果上面都通过了，返回表达式判断选择的type和它本身的selectType是不是一致的，一致的显示，每次for都会执行一次判断
                 }
             },
-            handleSelectType(type) { // 定义传过来的方法
+            selectRating(type) { // 定义传过来的方法
                 this.selectType = type;
                 this.$nextTick(() => {
                     this.scroll.refresh();
                 });
+                console.log('我是父组件ratings里的selectType ' + this.selectType);
             },
-            handleOnlyContent(oContent) {  // 定义传过来的方法
-                this.onlyContent = oContent;
+            toggleContent() {  // 定义传过来的方法
+                this.onlyContent = !this.onlyContent;
                 this.$nextTick(() => {
                     this.scroll.refresh();
                 });
+                console.log('我是父组件ratings里的onlyContent ' + this.onlyContent);
             }
         },
         filters: {
@@ -129,10 +129,6 @@
             star,
             split,
             ratingselect
-        },
-        beforeDestroy() {  // 在组件销毁之前回收这个
-            this.$root.eventHub.$off('selecttype', this.handleSelectType);
-            this.$root.eventHub.$off('onlycontent', this.handleOnlyContent);
         }
     };
 </script>

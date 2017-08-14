@@ -32,7 +32,7 @@
                 <split></split>
                 <div class="rating">
                     <h1 class="title">商品评价</h1>
-                    <ratingselect :selectType="selectType" :onlyContent="onlyContent" :desc="desc" :ratings="food.ratings"></ratingselect>
+                    <ratingselect @select="selectRating" @toggle="toggleContent" :selectType="selectType" :onlyContent="onlyContent" :desc="desc" :ratings="food.ratings"></ratingselect>
                     <div class="rating-wrapper">
                         <ul v-show="food.ratings && food.ratings.length">
                             <li v-show="needShow(rating.rateType, rating.text)" v-for="rating in food.ratings" class="rating-item">
@@ -83,10 +83,6 @@
                 }
             };
         },
-        created() {  // 子组件要修改父组件的prop过来的值，这里必须得写这个
-            this.$root.eventHub.$on('selecttype', this.handleSelectType);
-            this.$root.eventHub.$on('onlycontent', this.handleOnlyContent);
-        },
         methods: {
             show() {
                 this.showFlag = true;
@@ -112,17 +108,19 @@
                 this.$root.eventHub.$emit('cartadd', event.target); // 做抛物线小型动画
                 Vue.set(this.food, 'count', 1);
             },
-            handleSelectType(type) { // 定义传过来的方法
+            selectRating(type) {
                 this.selectType = type;
                 this.$nextTick(() => {
                     this.scroll.refresh();
                 });
+                console.log('我是父组件food里的selectType ' + this.selectType);
             },
-            handleOnlyContent(oContent) {  // 定义传过来的方法
-                this.onlyContent = oContent;
+            toggleContent() {
+                this.onlyContent = !this.onlyContent;
                 this.$nextTick(() => {
                     this.scroll.refresh();
                 });
+                console.log('我是父组件food里的onlyContent ' + this.onlyContent);
             },
             needShow(type, text) {
                 if (this.onlyContent && !text) { // 如果选择了“只显示要有内容的评价”，但是又没有内容
@@ -145,10 +143,6 @@
             cartcontrol,
             split,
             ratingselect
-        },
-        beforeDestroy() {  // 在组件销毁之前回收这个
-            this.$root.eventHub.$off('selecttype', this.handleSelectType);
-            this.$root.eventHub.$off('onlycontent', this.handleOnlyContent);
         }
     };
 </script>

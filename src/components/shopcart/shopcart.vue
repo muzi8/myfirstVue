@@ -231,6 +231,11 @@
         },
         components: {
             cartcontrol
+        },
+        beforeDestroy() {
+            this.$root.eventHub.$off('cartadd', (el) => {
+                this.drop(el);
+            });
         }
     };
 </script>

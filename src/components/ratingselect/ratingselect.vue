@@ -44,12 +44,6 @@
                 }
             }
         },
-        data() {  // 因为不可以直接修改父组件通过props传来过来的值，只能这么修改
-          return {
-              sType: this.selectType,
-              oContent: this.onlyContent
-          };
-        },
         computed: {
             positives() {
                 return this.ratings.filter((rating) => {
@@ -67,17 +61,15 @@
                 if (!event._constructed) {
                     return;
                 }
-                this.sType = type;
                 // 告诉父组件food，要修改这个值啦
-                this.$root.eventHub.$emit('selecttype', type);
+                this.$emit('select', type);
             },
             toggleContent(event) {
                 if (!event._constructed) {
                     return;
                 }
-                this.oContent = !this.onlyContent;
                 // 告诉父组件food，要修改这个值了
-                this.$root.eventHub.$emit('onlycontent', this.oContent);
+                this.$emit('toggle');
             }
         }
     };
